@@ -5,6 +5,7 @@
     <StackPanel>
         <Button Click="Button_Click">Artist Search</Button>
         <Button Click="Track_click">Track Upload</Button>
-        <Button Click="Button_Click_1">"Track Analyze</Button>
+        <Button Click="Button_Click_1">Track Analyze</Button>
+        
     </StackPanel>
 </Window>

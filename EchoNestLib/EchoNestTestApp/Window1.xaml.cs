@@ -37,14 +37,21 @@ namespace EchoNestTestApp
 
         private void Track_click(object sender, RoutedEventArgs e)
         {
-            EchoNestLib.APIs.TrackAPI.Instance.Upload(string.Empty);
+            EchoNestLib.APIs.TrackAPI.Instance.Upload("http://www.theelectricsheep.com/working/Beginnin-MozartFull.mp3");
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            EchoNestLib.APIs.TrackAPI.Instance.Analyze("TRMFRFJ12C1992D658", string.Empty);
+            //calling
+            //EchoNestLib.APIs.TrackAPI.Instance.Analyze("TRMFRFJ12C1992D658", string.Empty); 
+
+            //beginning
+            EchoNestLib.APIs.TrackAPI.Instance.Analyze("TRBIIJN12C1992D6C8", string.Empty);
+            
 
         }
+
+       
 
 
     }
