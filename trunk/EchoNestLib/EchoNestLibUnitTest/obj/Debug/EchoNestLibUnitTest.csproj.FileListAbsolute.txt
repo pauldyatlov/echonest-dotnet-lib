@@ -1,0 +1,10 @@
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\bin\Debug\libcurl.dll
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\bin\Debug\LibCurlShim.dll
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\bin\Debug\EchoNestLibUnitTest.dll
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\bin\Debug\EchoNestLibUnitTest.pdb
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\bin\Debug\EchoNestLib.dll
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\bin\Debug\LibCurlNet.dll
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\bin\Debug\EchoNestLib.pdb
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\obj\Debug\EchoNestLibUnitTest.dll
+C:\Users\fabbri.CGBO\Desktop\sh\echo\EchoNestLib\EchoNestLibUnitTest\obj\Debug\EchoNestLibUnitTest.pdb

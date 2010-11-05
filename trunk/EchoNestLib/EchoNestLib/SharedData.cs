@@ -74,7 +74,7 @@ namespace EchoNestLib
            
             
             easy.Cleanup();
-            string code = string.Empty;
+            
             
 
 
