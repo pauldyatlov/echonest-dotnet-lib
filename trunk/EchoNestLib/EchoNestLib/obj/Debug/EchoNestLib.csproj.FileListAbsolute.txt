@@ -1,0 +1,9 @@
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestLib\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestLib\bin\Debug\EchoNestLib.dll.config
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestLib\bin\Debug\EchoNestLib.dll
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestLib\bin\Debug\EchoNestLib.pdb
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestLib\obj\Debug\EchoNestLib.dll
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestLib\obj\Debug\EchoNestLib.pdb
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestLib\bin\Debug\LibCurlNet.dll
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestLib\bin\Debug\libcurl.dll
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestLib\bin\Debug\LibCurlShim.dll

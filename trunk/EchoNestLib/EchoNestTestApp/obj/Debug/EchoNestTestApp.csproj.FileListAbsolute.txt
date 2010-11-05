@@ -1,0 +1,17 @@
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\bin\Debug\EchoNestTestApp.exe
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\bin\Debug\EchoNestTestApp.pdb
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\bin\Debug\EchoNestLib.dll
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\bin\Debug\EchoNestLib.pdb
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\Window1.baml
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\Window1.g.cs
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\App.g.cs
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\EchoNestTestApp_MarkupCompile.cache
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\EchoNestTestApp.g.resources
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\EchoNestTestApp.Properties.Resources.resources
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\EchoNestTestApp.csproj.GenerateResource.Cache
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\EchoNestTestApp.exe
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\obj\Debug\EchoNestTestApp.pdb
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\bin\Debug\LibCurlNet.dll
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\bin\Debug\libcurl.dll
+C:\Users\fabbri.CGBO\Documents\Visual Studio 2008\Projects\EchoNestLib\EchoNestTestApp\bin\Debug\LibCurlShim.dll
