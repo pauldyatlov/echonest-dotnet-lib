@@ -7,7 +7,7 @@ using System.Net;
 using System.IO;
 using SeasideResearch.LibCurlNet;
 
-namespace EchoNestLib
+namespace ElectricSheep.EchoNestLib
 {
     public static class SharedData
     {
@@ -26,25 +26,26 @@ namespace EchoNestLib
         Object extraData)
         {
 
-            PostRequestResult = System.Text.Encoding.UTF8.GetString(buf);
+            WebRequestResult = System.Text.Encoding.UTF8.GetString(buf);
             return size * nmemb;
         }
 
-        private static string PostRequestResult;
+        private static string WebRequestResult;
 
         /// <summary>
         /// Returns the result and empties it
         /// </summary>
         /// <returns></returns>
-        public static string ReadPostRequestResult()
+        public static string ReadWebRequestResult()
         {
-            string res = PostRequestResult;
-            PostRequestResult = string.Empty;
+            string res = WebRequestResult;
+            WebRequestResult = string.Empty;
             return res;
 
         }
 
-        public static string PerformPostMultipartRequest(string query, string postData)
+        #region POST
+        public static void PerformPostMultipartRequest(string query, string postData)
         {
             Curl.GlobalInit((int)CURLinitFlag.CURL_GLOBAL_ALL);
 
@@ -81,59 +82,13 @@ namespace EchoNestLib
             Curl.GlobalCleanup();
             
             
-            return string.Empty;
+           
 
-            //ASCIIEncoding encoding = new ASCIIEncoding();
-            //string postData = string.Format("api_key={0}&url={1}&wait=true&format=xml", SharedData.APIKey, fileUrl);
-
-            //byte[] data = encoding.GetBytes(postData);
-
-            //// Prepare web request...
-            //HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(query);
-            //myRequest.Method = "POST";
-            //myRequest.UserAgent = "C# EchoNest Lib";
-
-            ////myRequest.ContentType = "multipart/form-data";
-            //myRequest.ContentLength = data.Length;
-            //Stream newStream = myRequest.GetRequestStream();
-            //// Send the data.
-            //newStream.Write(data, 0, data.Length);
-            //newStream.Close();
-
-
-            //HttpWebResponse response = null;
-
-            //string responseBody;
-
-            //int statusCode;
-
-
-            //try
-            //{
-
-            //    response = (HttpWebResponse)myRequest.GetResponse();
-            //    //byte[] buf = new byte[8192];
-            //    Stream respStream = response.GetResponseStream();
-            //    StreamReader respReader = new StreamReader(respStream);
-
-
-
-            //    responseBody = respReader.ReadToEnd();
-            //    statusCode = (int)(HttpStatusCode)response.StatusCode;
-
-            //}
-            //catch (WebException ex)
-            //{
-            //    response = (HttpWebResponse)ex.Response;
-            //    responseBody = "No Server Response";
-
-
-            //}
-
-            //return responseBody;
         }
+        #endregion
 
-        public static string PerformGetRequest(string query)
+        #region GET
+        public static void PerformGetRequest(string query)
         {
 
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(query);
@@ -170,8 +125,10 @@ namespace EchoNestLib
 
             }
 
-            return responseBody;
+            WebRequestResult = responseBody;
+            
 
         }
+        #endregion
     }
 }

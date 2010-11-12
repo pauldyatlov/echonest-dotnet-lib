@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
-using EchoNestLib.BObject;
+using ElectricSheep.EchoNestLib.BObject.Artist;
 using System.Xml;
 using System.Xml.XPath;
+using EchoNestLib.BObject.Artist;
 
-namespace EchoNestLib.APIs
+namespace ElectricSheep.EchoNestLib.APIs
 {
     public class ArtistAPI
     {
@@ -42,7 +43,8 @@ namespace EchoNestLib.APIs
 
 
 
-        public string ArtistWS = "http://developer.echonest.com/api/v4/artist/search?";
+        private string ArtistWS = "http://developer.echonest.com/api/v4/artist/search?";
+        private string AudioWS = "http://developer.echonest.com/api/v4/artist/audio?";
 
         public enum ArtistSortType
         {
@@ -52,8 +54,96 @@ namespace EchoNestLib.APIs
             HotttnesssDesc
         }
 
-        Dictionary<ArtistSortType, string> ArtistSortTypeDesc = new Dictionary<ArtistSortType,string>();
+        Dictionary<ArtistSortType, string> ArtistSortTypeDesc = new Dictionary<ArtistSortType, string>();
 
+        #region Audio
+        /// <summary>
+        /// This method parses an audio element xml iterator
+        /// </summary>
+        /// <param name="iterator"></param>
+        /// <returns></returns>
+        private List<Audio> ParseAudioXml(XPathNodeIterator iterator)
+        {
+            List<Audio> res = new List<Audio>();
+            
+            while (iterator.MoveNext())
+            {
+                Audio a = new Audio();
+
+                XPathNodeIterator audioIterator = iterator.Current.SelectChildren(XPathNodeType.Element);
+
+                while (audioIterator.MoveNext())
+                {
+                    if (audioIterator.Current.Value == string.Empty)
+                        continue;
+
+                    if (audioIterator.Current.Name == "artist")
+                        a.Artist = audioIterator.Current.Value;
+
+                    if (audioIterator.Current.Name == "title")
+                        a.Title = audioIterator.Current.Value;
+
+                    if (audioIterator.Current.Name == "url")
+                        a.Url = audioIterator.Current.Value;
+
+                    if (audioIterator.Current.Name == "date")
+                        a.Date = audioIterator.Current.ValueAsDateTime;
+
+                    if (audioIterator.Current.Name == "length")
+                        a.Length = audioIterator.Current.ValueAsDouble;
+
+                    if (audioIterator.Current.Name == "link")
+                        a.Link = audioIterator.Current.Value;
+
+                    if (audioIterator.Current.Name == "id")
+                        a.Id = audioIterator.Current.Value;
+
+                    if (audioIterator.Current.Name == "release")
+                        a.Release = audioIterator.Current.Value;
+
+                }
+
+                res.Add(a);
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// Audio element main method
+        /// </summary>
+        /// <param name="name">Name of the artist</param>
+        /// <param name="artistId">ID of the artist</param>
+        /// <param name="results">Number of results to show</param>
+        /// <param name="start"># of the first result to show</param>
+        /// <returns>List of Audio elements</returns>
+        public List<Audio> Audio(string name, string artistId, int results, int start)
+        {
+            string query = String.Format("{0}api_key={1}&name={2}&format=xml&start={3}",
+               AudioWS,
+               SharedData.APIKey,
+               name,
+               start
+               );
+
+            if (artistId != string.Empty)
+                query += "&id=" + artistId;
+
+            SharedData.PerformGetRequest(query);
+            string xmlResult = SharedData.ReadWebRequestResult();
+            XmlReader reader = XmlReader.Create(new StringReader(xmlResult));
+
+            XPathDocument doc = new XPathDocument(reader);
+            XPathNavigator nav = doc.CreateNavigator();
+
+            XPathExpression expr;
+            expr = nav.Compile("/response/audio/audio");
+            XPathNodeIterator iterator = nav.Select(expr);
+
+            return this.ParseAudioXml(iterator);
+            
+        }
+        #endregion
 
         #region Search
         public List<Artist> Search(string name)
@@ -76,10 +166,20 @@ namespace EchoNestLib.APIs
             return Search(name, results, sortType, fuzzySearch, null);
         }
 
-
+        /// <summary>
+        /// Search main method with all param
+        /// </summary>
+        /// <param name="name">Artist name</param>
+        /// <param name="results">Number of results to return</param>
+        /// <param name="sortType">Order method - See the enum </param>
+        /// <param name="fuzzy">Use fuzzy logic to search</param>
+        /// <param name="bucketRequest">Array with strings containing the bucket to request. Standard are:
+        /// familiarity
+        /// hotttnesss</param>
+        /// <returns>List of artists objects</returns>
         public List<Artist> Search(string name, int results, ArtistSortType sortType, bool fuzzy, List<string> bucketRequest)
         {
-        
+
             Dictionary<string, bool> bucket = new Dictionary<string, bool>();
 
 
@@ -118,6 +218,7 @@ namespace EchoNestLib.APIs
                 fuzzy.ToString().ToLower()
                 );
 
+
             foreach (string s in bucket.Keys)
             {
                 if (bucket[s])
@@ -133,14 +234,15 @@ namespace EchoNestLib.APIs
             query += string.Format("&results={0}", results);
 
 
+            SharedData.PerformGetRequest(query);
+            string xmlResult = SharedData.ReadWebRequestResult();
 
-            string xmlResult = SharedData.PerformGetRequest(query);
 
 
             List<Artist> res = new List<Artist>();
-            
+
             XmlReader reader = XmlReader.Create(new StringReader(xmlResult));
-            
+
             XPathDocument doc = new XPathDocument(reader);
             XPathNavigator nav = doc.CreateNavigator();
 
@@ -151,7 +253,7 @@ namespace EchoNestLib.APIs
             while (iterator.MoveNext())
             {
                 Artist a = new Artist();
-                
+
                 XPathNodeIterator artistIterator = iterator.Current.SelectChildren(XPathNodeType.Element);
 
                 while (artistIterator.MoveNext())
@@ -181,6 +283,12 @@ namespace EchoNestLib.APIs
 
                         }
                     }
+
+                    if (artistIterator.Current.Name == "audio")
+                    {
+                        a.Audio.AddRange(this.ParseAudioXml(artistIterator.Current.SelectChildren(XPathNodeType.Element)));
+                    }
+
 
                     if (artistIterator.Current.Name == "video")
                     {
@@ -225,7 +333,7 @@ namespace EchoNestLib.APIs
 
                         }
                     }
-                    
+
                 }
 
                 res.Add(a);

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EchoNestLib.BObject;
+using ElectricSheep.EchoNestLib.BObject.Track;
 using System.Xml;
 using System.Xml.XPath;
 using System.IO;
 
-namespace EchoNestLib.APIs
+namespace ElectricSheep.EchoNestLib.APIs
 {
     public class TrackAPI
     {
@@ -77,7 +77,7 @@ namespace EchoNestLib.APIs
 
             SharedData.PerformPostMultipartRequest(wsUrl, postData);
 
-            string res = SharedData.ReadPostRequestResult();
+            string res = SharedData.ReadWebRequestResult();
 
             return this.AnalyzeParseXml(res);
         }
