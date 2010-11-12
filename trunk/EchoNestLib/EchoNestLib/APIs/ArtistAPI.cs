@@ -45,6 +45,7 @@ namespace ElectricSheep.EchoNestLib.APIs
 
         private string ArtistWS = "http://developer.echonest.com/api/v4/artist/search?";
         private string AudioWS = "http://developer.echonest.com/api/v4/artist/audio?";
+        private string FamiliarityWS = "http://developer.echonest.com/api/v4/artist/familiarity?";
 
         public enum ArtistSortType
         {
@@ -55,6 +56,54 @@ namespace ElectricSheep.EchoNestLib.APIs
         }
 
         Dictionary<ArtistSortType, string> ArtistSortTypeDesc = new Dictionary<ArtistSortType, string>();
+
+        #region Familiarity
+        private double ParseFamiliarityXml(XPathNodeIterator iterator)
+        {
+            while (iterator.MoveNext())
+            {
+                XPathNodeIterator audioIterator = iterator.Current.SelectChildren(XPathNodeType.Element);
+
+                while (audioIterator.MoveNext())
+                {
+                    if (audioIterator.Current.Value == string.Empty)
+                        continue;
+
+                    if (audioIterator.Current.Name == "familiarity")
+                        return audioIterator.Current.ValueAsDouble;
+                }
+            }
+
+            return 0;
+        }
+
+
+        public double Familiarity(string name, string artistId)
+        {
+            string query = String.Format("{0}api_key={1}&name={2}&format=xml",
+               FamiliarityWS,
+               SharedData.APIKey,
+               name               
+               );
+
+            if (artistId != string.Empty)
+                query += "&id=" + artistId;
+
+            SharedData.PerformGetRequest(query);
+            string xmlResult = SharedData.ReadWebRequestResult();
+            XmlReader reader = XmlReader.Create(new StringReader(xmlResult));
+
+            XPathDocument doc = new XPathDocument(reader);
+            XPathNavigator nav = doc.CreateNavigator();
+
+            XPathExpression expr;
+            expr = nav.Compile("/response/artist");
+            XPathNodeIterator iterator = nav.Select(expr);
+            
+            return this.ParseFamiliarityXml(iterator);
+            
+        }
+        #endregion
 
         #region Audio
         /// <summary>
