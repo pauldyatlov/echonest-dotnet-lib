@@ -23,6 +23,7 @@ namespace ElectricSheep.EchoNestLib.BObject.Artist
             this.Reviews = new List<string>();
             this.News = new List<string>();
             this.Audio = new List<Audio>();
+            this.Blogs = new List<Blog>();
         }
 
        
@@ -90,8 +91,17 @@ namespace ElectricSheep.EchoNestLib.BObject.Artist
             set { _audio = value; }
         }
         private List<Audio> _audio;
-        
 
+        
+        /// <summary>
+        ///List of blogs
+        /// </summary>
+        public List<Blog> Blogs
+        {
+            get { return _blogs; }
+            set { _blogs = value; }
+        }
+        private List<Blog> _blogs;
 
         /// <summary>
         /// List of video

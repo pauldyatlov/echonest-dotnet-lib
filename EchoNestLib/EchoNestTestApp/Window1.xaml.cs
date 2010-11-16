@@ -66,6 +66,11 @@ namespace ElectricSheep.EchoNestTestApp
             ElectricSheep.EchoNestLib.APIs.ArtistAPI.Instance.Biograhpies("fabrizio de andre", string.Empty);
         }
 
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            ElectricSheep.EchoNestLib.APIs.ArtistAPI.Instance.Blogs("jethro tull", string.Empty);
+        }
+
        
 
 
