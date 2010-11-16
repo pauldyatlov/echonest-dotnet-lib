@@ -47,6 +47,7 @@ namespace ElectricSheep.EchoNestLib.APIs
         private string AudioWS = "http://developer.echonest.com/api/v4/artist/audio?";
         private string FamiliarityWS = "http://developer.echonest.com/api/v4/artist/familiarity?";
         private string BiographiesWS = "http://developer.echonest.com/api/v4/artist/biographies?";
+        private string BlogsWS = "http://developer.echonest.com/api/v4/artist/blogs?";
 
         public enum ArtistSortType
         {
@@ -287,6 +288,101 @@ namespace ElectricSheep.EchoNestLib.APIs
         }
         #endregion
 
+        #region Blogs
+
+        private List<Blog> ParseBlogsXml(XPathNodeIterator iterator)
+        {
+            List<Blog> res = new List<Blog>();
+
+            while (iterator.MoveNext())
+            {
+                Blog a = new Blog();
+
+                XPathNodeIterator blogsIterator = iterator.Current.SelectChildren(XPathNodeType.Element);
+
+                while (blogsIterator.MoveNext())
+                {
+                    if (blogsIterator.Current.Value == string.Empty)
+                        continue;
+
+                    if (blogsIterator.Current.Name == "url")
+                        a.Url = blogsIterator.Current.Value;
+
+                    if (blogsIterator.Current.Name == "name")
+                        a.Name = blogsIterator.Current.Value;
+
+                    if (blogsIterator.Current.Name == "date_found")
+                        a.DateFound = blogsIterator.Current.ValueAsDateTime;
+
+                    if (blogsIterator.Current.Name == "date_posted")
+                        a.DateFound = blogsIterator.Current.ValueAsDateTime;
+                    
+                    if (blogsIterator.Current.Name == "summary")
+                        a.Summary = blogsIterator.Current.Value;
+
+                    if (blogsIterator.Current.Name == "id")
+                        a.Id = blogsIterator.Current.Value;
+
+                }
+
+                res.Add(a);
+            }
+
+            return res;
+        }
+
+
+        public List<Blog> Blogs(string name, string artistId)
+        {
+            return this.Blogs(name, artistId, 0, 0, false);
+        }
+
+        public List<Blog> Blogs(string name, string artistId, int results, int start, bool highRelevance)
+        {
+            string query = String.Format("{0}api_key={1}&name={2}&format=xml",
+               BlogsWS,
+               SharedData.APIKey,
+               name,
+               start
+               );
+
+            if (artistId != string.Empty)
+                query += "&id=" + artistId;
+
+            if (start != 0)
+            {
+                query += "&start=" + start.ToString();
+            }
+
+            if (results != 0)
+            {
+                query += "&results=" + results.ToString();
+            }
+
+            if (highRelevance != null)
+            {
+               
+               query += "&high_relevance=" + highRelevance.ToString().ToLower();
+               
+
+            }
+
+            SharedData.PerformGetRequest(query);
+            string xmlResult = SharedData.ReadWebRequestResult();
+            XmlReader reader = XmlReader.Create(new StringReader(xmlResult));
+
+            XPathDocument doc = new XPathDocument(reader);
+            XPathNavigator nav = doc.CreateNavigator();
+
+            XPathExpression expr;
+            expr = nav.Compile("/response/blogs/blog");
+            XPathNodeIterator iterator = nav.Select(expr);
+
+            return this.ParseBlogsXml(iterator);
+
+        }
+        #endregion
+
         #region Search
         public List<Artist> Search(string name)
         {
@@ -327,7 +423,7 @@ namespace ElectricSheep.EchoNestLib.APIs
 
             bucket.Add("audio", false);
             bucket.Add("biographies", true);
-            bucket.Add("blogs", false);
+            bucket.Add("blogs", true);
             bucket.Add("familiarity", true);
             bucket.Add("hotttnesss", true);
             bucket.Add("images", false);
@@ -418,8 +514,11 @@ namespace ElectricSheep.EchoNestLib.APIs
                     if (artistIterator.Current.Name == "biographies")
                     {
                         a.Biographies.AddRange(this.ParseBiographyXml(artistIterator.Current.SelectChildren(XPathNodeType.Element)));
+                    }
 
-                        
+                    if (artistIterator.Current.Name == "blogs")
+                    {
+                        a.Blogs.AddRange(this.ParseBlogsXml(artistIterator.Current.SelectChildren(XPathNodeType.Element)));
                     }
 
                     if (artistIterator.Current.Name == "audio")
