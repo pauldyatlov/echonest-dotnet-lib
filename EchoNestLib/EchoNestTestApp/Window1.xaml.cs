@@ -61,6 +61,11 @@ namespace ElectricSheep.EchoNestTestApp
             double value = ElectricSheep.EchoNestLib.APIs.ArtistAPI.Instance.Familiarity("rolling stones", string.Empty);
         }
 
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            ElectricSheep.EchoNestLib.APIs.ArtistAPI.Instance.Biograhpies("fabrizio de andre", string.Empty);
+        }
+
        
 
 

@@ -53,6 +53,7 @@
     <Compile Include="APIs\TrackAPI.cs" />
     <Compile Include="BObject\Artist\Artist.cs" />
     <Compile Include="BObject\Artist\Audio.cs" />
+    <Compile Include="BObject\Artist\Biography.cs" />
     <Compile Include="BObject\Song\Song.cs" />
     <Compile Include="BObject\Track\Track.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
