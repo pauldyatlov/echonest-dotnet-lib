@@ -17,7 +17,7 @@ namespace ElectricSheep.EchoNestLib.BObject.Artist
         /// </summary>
         public Artist()
         {
-            this.Biographies = new List<string>();
+            this.Biographies = new List<Biography>();
             this.Video = new List<string>();
             this.Images = new List<string>();
             this.Reviews = new List<string>();
@@ -73,12 +73,12 @@ namespace ElectricSheep.EchoNestLib.BObject.Artist
         /// <summary>
         /// List of biographies
         /// </summary>
-        public List<string> Biographies
+        public List<Biography> Biographies
         {
             get { return _biographies; }
             set { _biographies = value; }
         }
-        List<string> _biographies;
+        List<Biography> _biographies;
 
         
         /// <summary>

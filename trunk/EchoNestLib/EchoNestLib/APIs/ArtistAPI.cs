@@ -46,6 +46,7 @@ namespace ElectricSheep.EchoNestLib.APIs
         private string ArtistWS = "http://developer.echonest.com/api/v4/artist/search?";
         private string AudioWS = "http://developer.echonest.com/api/v4/artist/audio?";
         private string FamiliarityWS = "http://developer.echonest.com/api/v4/artist/familiarity?";
+        private string BiographiesWS = "http://developer.echonest.com/api/v4/artist/biographies?";
 
         public enum ArtistSortType
         {
@@ -194,6 +195,98 @@ namespace ElectricSheep.EchoNestLib.APIs
         }
         #endregion
 
+        #region Biographies
+
+        private List<Biography> ParseBiographyXml(XPathNodeIterator iterator)
+        {
+            List<Biography> res = new List<Biography>();
+
+            while (iterator.MoveNext())
+            {
+                Biography a = new Biography();
+
+                XPathNodeIterator biographyIterator = iterator.Current.SelectChildren(XPathNodeType.Element);
+
+                while (biographyIterator.MoveNext())
+                {
+                    if (biographyIterator.Current.Value == string.Empty)
+                        continue;
+
+                    if (biographyIterator.Current.Name == "url")
+                        a.Url = biographyIterator.Current.Value;
+
+                    if (biographyIterator.Current.Name == "site")
+                        a.Site = biographyIterator.Current.Value;
+
+                    //ADD HANDLING OF LICENCE TYPE
+                    //
+                    //if (biographyIterator.Current.Name == "licence")
+                    //    a.Licence = biographyIterator.Current.Value;
+
+                    if (biographyIterator.Current.Name == "text")
+                        a.Text = biographyIterator.Current.Value;
+                
+                }
+
+                res.Add(a);
+            }
+
+            return res;
+        }
+
+
+        public List<Biography> Biograhpies(string name, string artistId)
+        {
+            return this.Biograhpies(name, artistId, 0, 0, null);
+        }
+
+        public List<Biography> Biograhpies(string name, string artistId, int results, int start, List<string> allowedLicenses)
+        {
+            string query = String.Format("{0}api_key={1}&name={2}&format=xml",
+               BiographiesWS,
+               SharedData.APIKey,
+               name,
+               start
+               );
+            
+            if (artistId != string.Empty)
+                query += "&id=" + artistId;
+
+            if (start != 0)
+            {
+                query += "&start=" + start.ToString();
+            }
+
+            if (results != 0)
+            {
+                query += "&results=" + results.ToString();
+            }
+
+            if (allowedLicenses != null)
+            {
+                foreach (string lic in allowedLicenses)
+                {
+                    query += "&license=" + lic;
+                }
+
+            }
+
+            SharedData.PerformGetRequest(query);
+            string xmlResult = SharedData.ReadWebRequestResult();
+            XmlReader reader = XmlReader.Create(new StringReader(xmlResult));
+
+            XPathDocument doc = new XPathDocument(reader);
+            XPathNavigator nav = doc.CreateNavigator();
+
+            XPathExpression expr;
+            expr = nav.Compile("/response/biographies/biography");
+            XPathNodeIterator iterator = nav.Select(expr);
+
+            return this.ParseBiographyXml(iterator);
+
+        }
+        #endregion
+
         #region Search
         public List<Artist> Search(string name)
         {
@@ -233,7 +326,7 @@ namespace ElectricSheep.EchoNestLib.APIs
 
 
             bucket.Add("audio", false);
-            bucket.Add("biographies", false);
+            bucket.Add("biographies", true);
             bucket.Add("blogs", false);
             bucket.Add("familiarity", true);
             bucket.Add("hotttnesss", true);
@@ -324,13 +417,9 @@ namespace ElectricSheep.EchoNestLib.APIs
 
                     if (artistIterator.Current.Name == "biographies")
                     {
-                        XPathNodeIterator biographyIterator = artistIterator.Current.SelectChildren(XPathNodeType.Element);
-                        while (biographyIterator.MoveNext())
-                        {
-                            if (biographyIterator.Current.Name == "biography")
-                                a.Biographies.Add(biographyIterator.Current.Value);
+                        a.Biographies.AddRange(this.ParseBiographyXml(artistIterator.Current.SelectChildren(XPathNodeType.Element)));
 
-                        }
+                        
                     }
 
                     if (artistIterator.Current.Name == "audio")

@@ -6,6 +6,7 @@
         <Button Click="Button_Click">Artist Search</Button>
         <Button Click="Button_Click_2">Artist Audio</Button>
         <Button Click="Button_Click_3">Artist Familiarity</Button>
+        <Button Click="Button_Click_4">Artist Biographies</Button>
         <Button Click="Track_click">Track Upload</Button>
         <Button Click="Button_Click_1">Track Analyze</Button>
         
